@@ -1,0 +1,25 @@
+pipeline:
+  agent: any
+  environment:
+    DOCKER_IMAGE: 'your-docker-image'
+    K8S_DEPLOYMENT_YAML: 'k8s-deployment.yaml'
+  stages:
+    - stage: 'Build'
+      steps:
+        - sh: 'docker build -t $DOCKER_IMAGE .'
+    
+    - stage: 'Deploy to Dev'
+      steps:
+        - script:
+            - deployToEnvironment 'dev'
+
+    - stage: 'QA Testing'
+      steps:
+        - script:
+            - deployToEnvironment 'qa'
+
+    - stage: 'Deploy to Live'
+      steps:
+        - script:
+            - deployToEnvironment 'live'
+
